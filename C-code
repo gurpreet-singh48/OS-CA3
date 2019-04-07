@@ -1,0 +1,98 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+
+int main()
+{
+	int n,i,j,temp;
+	int art[100],bst[100],cmt[100],srtart[100],srtbst[100];
+	printf("Enter the number of processes : ");
+	scanf("%d",&n);
+	for(i = 0;i<n;i++)
+	{
+		printf("PROCESS P%d :- \n",i+1);
+		printf("Arrival time : ");
+		scanf("%d",&art[i]);
+		printf("Burst time : ");
+		scanf("%d",&bst[i]);		
+	}
+	for(i=0;i<n;i++)
+	{
+		srtart[i] = art[i];
+	}
+
+	for(i =0;i<n-1;i++)
+	{
+		for(j=0;j<n-i-1;j++)
+		{
+			if(srtart[j] > srtart[j+1])
+			{
+				temp = srtart[j];
+				srtart[j] = srtart[j+1];
+				srtart[j+1] = temp;
+ 			}
+		}
+	}
+	
+	for(i = 0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			if(srtart[i] == art[j])
+			{
+				srtbst[i] = bst[j];
+			}
+		}
+	}
+	for(int i=0;i<n;i++)
+	{
+		printf("%d %d\n",srtart[i],srtbst[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		if(srtbst[i] == 3)
+		{
+			if(i == 0)
+			{
+				srtbst[i] = srtbst[i] -3;
+				cmt[i] = 3;
+			}
+			else
+			{
+				cmt[i] = cmt[i-1] + 3;
+				srtbst[i] = 0;
+			}
+		}
+		else if(srtbst[i] > 3)
+		{
+			if(i == 0)
+			{
+				srtbst[i] = srtbst[i] -3;
+				cmt[i] = 3;
+			}
+			else
+			{
+				cmt[i] = cmt[i-1] + 3;
+				srtbst[i] = srtbst[i] -3;
+			}
+		}
+		else
+		{
+			if(i == 0)
+			{
+				cmt[i] = srtbst[i];
+				srtbst[i] = 0;
+			}
+			else
+			{
+				cmt[i] = cmt[i-1] + srtbst[i];
+				srtbst[i] = 0;
+			}
+			 
+		}
+	}
+	for(i=0;i<n;i++)
+	{
+		printf("%d %d\n",srtbst[i],cmt[i]);
+	}
+}
