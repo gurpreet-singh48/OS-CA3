@@ -5,9 +5,10 @@
 int main()
 {
 	int n,i,j,temp;
-	int art[100],bst[100],cmt[100],srtart[100],srtbst[100],actcmp[100],arvtime[100];
+	int art[100],bst[100],cmt[100],srtart[100],srtbst[100],actcmp[100],arvtime[100],check;
 	printf("Enter the number of processes : ");
 	scanf("%d",&n);
+	check  = n;
 	for(i = 0;i<n;i++)
 	{
 		printf("PROCESS P%d :- \n",i+1);
@@ -91,7 +92,6 @@ int main()
 			 
 		}
 	}
-	int lastcmt = cmt[n-1];
 	int zerobst=0;
 	for(i = 0;i<n;i++)
 	{
@@ -123,15 +123,18 @@ int main()
 	{
 		printf("%d %d \n",arvtime[i],actcmp[i]);
 	}
-	/*printf("%d %d",actcmp[0],actcmp[2]);*/
-	/*int check;
+	int lastcmt;
+	if(arvtime[zerobst-1] == check )
+	{
+		lastcmt = actcmp[zerobst-1];
+	}
+	else
+	{
+		lastcmt = srtbst[n-1];
+	}
 	for(i =0;i<n;i++)
 	{
-		if(srtbst[i] == 0)
-		{
-			continue;
-		}
-		else if(srtbst[i] == 6)
+		if(srtbst[i] == 6)
 		{
 			if(i == 0)
 			{
@@ -140,24 +143,8 @@ int main()
 			}
 			else
 			{
-				srtbst[i] = 0;
-				check = i;
-				while(srtbst[i-1] == 0)
-				{
-					i = i-1;
-					if(i == 0)
-					{
-						break;
-					}
-				}
-				if(i == 0)
-				{
-					cmt[check] = lastcmt + 6;
-				}
-				else
-				{
-					cmt[check] = cmt[i - 1] + 6;
-				}
+				srtbst[i] = srtbst[i] - 6;
+				cmt[i] = cmt[i-1] + 6;
 			}
 		}
 		else if(srtbst[i] > 6)
@@ -170,27 +157,7 @@ int main()
 			else
 			{
 				srtbst[i] = srtbst[i] -6;
-				check = i;
-				while(srtbst[i-1] == 0)
-				{
-					i = i-1;
-					if(i == 0)
-					{
-						break;
-					}
-					else
-					{
-						continue;
-					}
-				}
-				if(i == 0)
-				{
-					cmt[check] = lastcmt + 6;
-				}
-				else
-				{
-					cmt[check] = cmt[i - 1] + 6;
-				}
+				cmt[i] = cmt[i-1]+ 6;
 			}
 		}
 		else
@@ -202,33 +169,98 @@ int main()
 			}
 			else
 			{
-				srtbst[i] = srtbst[i] - 6;
-				check = i;
-				while(srtbst[i-1] == 0)
-				{
-					i = i-1;
-					if(i == 0)
-					{
-						break;
-					}
-				}
-				if(i == 0)
-				{
-					cmt[check] = lastcmt + 6;
-				}
-				else
-				{
-					cmt[check] = cmt[i - 1] + 6;
-				}
+				cmt[i] = cmt[i-1] + srtbst[i];
+				srtbst[i] = 0;
 			}
 			 
 		}
 	}
+	
+	printf(" n is %d\n\n",n);
+	for(i =0;i<n;i++)
+	{
+		printf("%d %d\n",srtbst[i],cmt[i]);
+	}
+	for(i = 0;i<n;i++)
+	{
+		if(srtbst[i] == 0)
+		{
+			actcmp[zerobst] = cmt[i];
+			arvtime[zerobst] = srtart[i];
+			zerobst = zerobst + 1;
+		for(j = i;j<n;j++)
+		{
+			srtbst[j] = srtbst[j+1];
+			cmt[j] = cmt[j+1];
+			srtart[j] = srtart[j+1];
+		}
+		    n=n-1;
+	    }
+	    else
+	    {
+	    	continue;
+		}
+	}
+	
 	printf("\n\n");
 	for(i=0;i<n;i++)
 	{
 		printf("%d %d\n",srtbst[i],cmt[i]);
-	}*/
+	}
+	printf("\n\n");
+	for(i=0;i<zerobst;i++)
+	{
+		printf("%d %d \n",arvtime[i],actcmp[i]);
+	}
+	lastcmt = actcmp[zerobst-1];
+	for(i=0;i<n;i++)
+	{
+		if(i == 0)
+		{
+			cmt[i] = lastcmt + srtbst[i];
+			srtbst[i] = 0;
+		}
+		
+		else
+		{
+			cmt[i] = cmt[i-1] + srtbst[i];
+			srtbst[i] = 0;
+		}
+ 	}
+	
+
+	for(i = 0;i<n;i++)
+	{
+		if(srtbst[i] == 0)
+		{
+			actcmp[zerobst] = cmt[i];
+			arvtime[zerobst] = srtart[i];
+			zerobst = zerobst + 1;
+		for(j = i;j<n;j++)
+		{
+			srtbst[j] = srtbst[j+1];
+			cmt[j] = cmt[j+1];
+			srtart[j] = srtart[j+1];
+		}
+		    n=n-1;
+	    }
+	    else
+	    {
+	    	continue;
+		}
+	}
+	
+	
+	printf("\n\n");
+	for(i=0;i<n;i++)
+	{
+		printf("%d %d\n",srtbst[i],cmt[i]);
+	}
+	printf("\n\n");
+	for(i=0;i<zerobst;i++)
+	{
+		printf("%d %d \n",arvtime[i],actcmp[i]);
+	}
 	
 	
 }
