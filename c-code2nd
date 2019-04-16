@@ -1,0 +1,140 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void firstfit(int [],int []);
+void bestfit(int [],int []);
+void worstfit(int [],int []);
+int main()
+{
+	int fAvail[5] = {100,500,200,300,600};
+	int fill[4] = {212,417,112,426};
+	printf("------------first fit--------\n");
+	firstfit(fAvail,fill);
+	int bAvail[5] = {100,500,200,300,600};
+	int bfill[4] = {212,417,112,426};
+	printf("------------best fit--------\n");
+	bestfit(bAvail,bfill);
+	int wAvail[5] = {100,500,200,300,600};
+	int wfill[4] = {212,417,112,426};
+	printf("------------worst fit--------\n");
+	worstfit(wAvail,wfill);
+}
+
+void firstfit(int fAvail[],int fill[])
+{
+	for(int i =0;i<4;i++)
+	{
+		for(int j = 0;j<5;j++)
+		{
+			if(fill[i] < fAvail[j])
+			{
+				printf("%dK is put in %dK partition\n",fill[i],fAvail[j]);
+				fAvail[j] = fAvail[j] - fill[i];
+				fill[i] = 0;
+				break;
+			}
+			else
+			{
+				continue;
+			}
+		}
+		if(fill[i] == 0)
+		{
+			continue;
+		}
+		else
+		{
+			printf("%dK must wait\n\n",fill[i]);
+		}
+	}
+}
+
+void bestfit(int bAvail[],int fill[])
+{
+	int check[5],temp;
+	for(int i=0;i<5;i++)
+	{
+		for(int j=0;j<5-i-1;j++)
+		{
+			if(bAvail[j] > bAvail[j+1])
+			{
+				temp = bAvail[j+1];
+				bAvail[j+1] = bAvail[j];
+				bAvail[j] = temp;
+			}
+		}
+	}
+	
+	for(int i=0;i<4;i++)
+	{
+		for(int j=0;j<5;j++)
+		{
+			if(fill[i] < bAvail[j])
+			{
+				printf("%dK is put in %dK partition\n",fill[i],bAvail[j]);
+				bAvail[j] = bAvail[j] - fill[i];
+				fill[i] = 0;
+				break;
+			}
+		}
+	}
+	
+	printf("\n\n");
+}
+
+
+void worstfit(int wAvail[],int wfill[])
+{
+	int temp;
+	for(int i=0;i<4;i++)
+	{
+		for(int j=0;j<5-i-1;j++)
+		{
+			if(wAvail[j] < wAvail[j+1])
+			{
+				temp = wAvail[j];
+				wAvail[j] = wAvail[j+1];
+				wAvail[j+1] = temp;
+			}
+		}
+	}
+	
+	for(int i=0;i<4;i++)
+	{
+		for(int j=0;j<5;j++)
+		{
+			if(wfill[i] < wAvail[j])
+			{
+				printf("%dK is put in %dK partition\n",wfill[i],wAvail[j]);
+				wAvail[j] = wAvail[j] - wfill[i];
+				wfill[i] = 0;
+				for(int i=0;i<4;i++)
+	        	{
+					for(int j=0;j<5-i-1;j++)
+					{
+						if(wAvail[j] < wAvail[j+1])
+						{
+							temp = wAvail[j];
+							wAvail[j] = wAvail[j+1];
+							wAvail[j+1] = temp;
+						}
+					}
+			    }
+				break;
+			}
+			else
+			{
+				continue;
+			}
+				
+		}
+		if(wfill[i] == 0)
+		{
+			continue;
+		}
+		else
+		{
+			printf("%dK must wait",wfill[i]);
+		}
+	}
+}
