@@ -43,21 +43,35 @@ int main()
  			}
 		}
 	}
-	
+	j=0;
+	int k=0;
 	for(i = 0;i<n;i++)
 	{
-		for(j=0;j<n;j++)
+		while(j<n)
 		{
-				if(srtart[i] == art[j])
+				if(srtart[i] == srtart[i+1] or srtart[i] == srtart[i-1])
+				{4
+					while(k<n)
+					{
+						if(srtart[i] == art[k])
+						{
+							srtbst[i] = bst[k];
+							k=k+1;
+							break;
+						}
+					}
+					break;
+				}
+				else if(srtart[i] == art[j])
 				{
 					srtbst[i] = bst[j];
+					break;
+				}
+				else
+				{
+					j=j+1;
 				}
 		}
-	}
-	
-	for(int i=0;i<n;i++)
-	{
-		printf("%d %d\n",srtart[i],srtbst[i]);
 	}
 	for(i=0;i<n;i++)
 	{
@@ -152,18 +166,7 @@ int main()
 	    	continue;
 		}
 	}
-	printf("\n\n");
-	for(i=0;i<n;i++)
-	{
-		printf("%d %d \n",cmt[i],srtbst[i]);
-	}
-	printf("-----------");
-	for(i=0;i<zerobst;i++)
-	{
-		printf("%d %d \n",arvtime[i],actcmp[i]);
-	}
 	int lastcmt;
-	printf("%d %d",maxarv,arvtime[zerobst-1]);
 	if(arvtime[zerobst-1] == maxarv )
 	{
 		
@@ -173,7 +176,6 @@ int main()
 	{
 		lastcmt = cmt[n-1];
 	}
-	printf("lastcmp is %d",lastcmt);
 	for(i =0;i<n;i++)
 	{
 		if(srtbst[i] == 6)
@@ -217,12 +219,6 @@ int main()
 			 
 		}
 	}
-	
-	printf(" n is %d\n\n",n);
-	for(i =0;i<n;i++)
-	{
-		printf("%d %d\n",srtbst[i],cmt[i]);
-	}
 	lastcmt = cmt[n-1];
 	i=0;
 	while(i<n)
@@ -248,17 +244,6 @@ int main()
 		}
 	}
 	
-	printf("\n\n");
-	for(i=0;i<n;i++)
-	{
-		printf("%d %d\n",srtbst[i],cmt[i]);
-	}
-	printf("\n\n");
-	for(i=0;i<zerobst;i++)
-	{
-		printf("%d %d \n",arvtime[i],actcmp[i]);
-	}
-	printf("lastcmp is %d",lastcmt);
 	for(i=0;i<n;i++)
 	{
 		if(i == 0)
@@ -299,18 +284,6 @@ int main()
 	}
 	
 	
-	printf("\n\n");
-	for(i=0;i<n;i++)
-	{
-		printf("%d %d\n",srtbst[i],cmt[i]);
-	}
-	printf("\n\n");
-	
-	for(i=0;i<zerobst;i++)
-	{
-		printf("%d %d \n",arvtime[i],actcmp[i]);
-	}
-	printf("\n\n");
 	
 	for(i =0;i<zerobst-1;i++)
 	{
@@ -327,11 +300,7 @@ int main()
  			}
 		}
 	}
-	
-	for(i=0;i<zerobst;i++)
-	{
-		printf("%d %d \n",arvtime[i],actcmp[i]);
-	}
+
 	
 	for(i = 0;i<zerobst;i++)
 	{
@@ -354,6 +323,7 @@ int main()
 	}
 	int avgturn = turnsum/zerobst;
 	int avgwait = waitingsum/zerobst;
-	printf("Average Turnaround time is %d",avgturn);
-	printf("Average waiting time is %d",avgwait);
+	printf("..........................................\n");
+	printf("Average Turnaround time is : %d\n",avgturn);
+	printf("Average waiting time is : %d",avgwait);
 }
