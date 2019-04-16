@@ -6,19 +6,37 @@ int main()
 {
 	int n,i,j,temp;
 	int art[100],bst[100],cmt[100],srtart[100],srtbst[100],actcmp[100],arvtime[100],check,turnaround[100],waiting[100],initbst[100];
-	printf("Enter the number of processes : ");
-	scanf("%d",&n);
+	while(1)
+	{
+		printf("Enter the number of processes : ");
+		scanf("%d",&n);
+		if(n<=0)
+		{
+			printf("no. of processes should be positive\n");
+			continue;
+		}
+		else
+		{
+			break;
+		}
+	}
+	   
 	check  = n;
 	while(i<n)
 	{
 		printf("PROCESS P%d :- \n",i+1);
 		printf("Arrival time : ");
 		scanf("%d",&art[i]);
+		if(art[i] < 0)
+		{
+			printf("////////please enter valid arrival time//////////\n");
+			continue;
+		}
 		printf("Burst time : ");
 		scanf("%d",&bst[i]);
-		if(bst[i] == 0)
+		if(bst[i] <= 0)
 		{
-			printf("please enter valid burst time\n");
+			printf("////////please enter valid burst time///////////\n");
 			continue;
 		}		
 		else
@@ -45,31 +63,13 @@ int main()
 	}
 	j=0;
 	int k=0;
-	for(i = 0;i<n;i++)
+ 	for(i = 0;i<n;i++)
 	{
-		while(j<n)
+		for(j=0;j<n;j++)
 		{
-				if(srtart[i] == srtart[i+1] or srtart[i] == srtart[i-1])
-				{4
-					while(k<n)
-					{
-						if(srtart[i] == art[k])
-						{
-							srtbst[i] = bst[k];
-							k=k+1;
-							break;
-						}
-					}
-					break;
-				}
-				else if(srtart[i] == art[j])
+				if(srtart[i] == art[j])
 				{
 					srtbst[i] = bst[j];
-					break;
-				}
-				else
-				{
-					j=j+1;
 				}
 		}
 	}
@@ -84,7 +84,7 @@ int main()
 			if(i == 0)
 			{
 				srtbst[i] = srtbst[i] -3;
-				cmt[i] = 3;
+				cmt[i] = 3 + srtart[i];
 			}
 			else
 			{
@@ -104,7 +104,7 @@ int main()
 			if(i == 0)
 			{
 				srtbst[i] = srtbst[i] -3;
-				cmt[i] = 3;
+				cmt[i] = 3 + srtart[i];
 			}
 			else
 			{
@@ -123,7 +123,7 @@ int main()
 		{
 			if(i == 0)
 			{
-				cmt[i] = srtbst[i];
+				cmt[i] = srtbst[i] + srtart[i];
 				srtbst[i] = 0;
 			}
 			else
@@ -326,4 +326,5 @@ int main()
 	printf("..........................................\n");
 	printf("Average Turnaround time is : %d\n",avgturn);
 	printf("Average waiting time is : %d",avgwait);
+	return(0);
 }
